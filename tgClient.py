@@ -48,10 +48,11 @@ DataSet = Data()
 @bot.message_handler(commands=['start'])
 def sendWelcome(messages):
     if isinstance(messages, telebot.types.Message):
-        bot.reply_to(messages, "Howdy, how are you doing?")
-    elif isinstance(messages, list):
-        for message in messages:
-            print(message)
+        markup = telebot.types.ReplyKeyboardMarkup()
+        markup.add(telebot.types.KeyboardButton("/getCurrentTarget"))
+        markup.add(telebot.types.KeyboardButton("/getPhotoOf"))
+        markup.add(telebot.types.KeyboardButton("/getCurrentTarget"))
+        bot.send_message(messages.chat.id, text="Howdy, how are you doing?", reply_markup=markup)
 
 
 @bot.message_handler(regexp="/photo [a-zA-Z]+")
@@ -62,10 +63,18 @@ def readyGetPhoto(messages):
         DataSet.addTarget(messages.text[6:])
 
 
+@bot.message_handler(commands=["getPhotoOf"])
+def getNameList(messages):
+    if isinstance(messages, telebot.types.Message):
+        bot.reply_to(messages, "Please input Name")
+        msg = bot.reply_to(messages, "a")
+        telebot.apihelper.edit_message_text(chat_id=msg.chat.id, message_id=msg.message_id,
+            text="msg edited",
+            token=token)
+
 @bot.message_handler(commands=['getCurrentTarget'])
 def getName(messages):
     if isinstance(messages, telebot.types.Message):
-
         bot.reply_to(messages, DataSet.getName())
 
 
@@ -95,12 +104,13 @@ def getPhoto(messages):
 @bot.message_handler(content_types=['location'])
 def getLocation(messages):
     if isinstance(messages, telebot.types.Message):
-        print(message)
+        bot.send_location(messages.chat.id,
+        latitude=messages.location.latitude,
+        longitude=messages.location.longitude)
 
 @bot.message_handler(commands=['help'])
 def getHelpInfo(messages):
     if isinstance(messages, telebot.types.Message):
         bot.reply_to(messages, "/photo target name\n /getCurrentTarget \n /getPhotoOf name")
-
 
 bot.polling(none_stop=False, interval=0, timeout=20)
