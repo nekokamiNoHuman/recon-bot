@@ -80,18 +80,6 @@ def getPhotoListOfSomeone(messages):
             bot.reply_to(messages, 'no such a target')
 
 
-# @bot.message_handler(content_types=['photo'])
-# def getPhoto(messages):
-#     if isinstance(messages, telebot.types.Message):
-#         if DataSet.inputing:
-#             fileInfo = bot.get_file(messages.photo[0].file_id)
-#             file = requests.get('https://api.telegram.org/file/bot{0}/{1}'.format(token, fileInfo.file_path))
-#             DataSet.addPhoto(file.content, DataSet.getName())
-#             # print(file.content)
-#             bot.reply_to(messages, 'photo added')
-#         else:
-#             bot.reply_to(messages, 'photo not added')
-
 @bot.message_handler(commands=['help'])
 def getHelpInfo(messages):
     if isinstance(messages, telebot.types.Message):
