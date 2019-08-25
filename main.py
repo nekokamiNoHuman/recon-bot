@@ -1,9 +1,12 @@
+from app import app
 from pathlib import Path
 import telebot
 import logging
 import requests
 import numpy as np
-
+from Data import Data
+from google.appengine.api import urlfetch
+from google.appengine.ext import ndb
 import googlemaps
 # logger = telebot.logger
 # telebot.logger.setLevel(logging.DEBUG)
@@ -13,89 +16,7 @@ gmaps = googlemaps.Client(key=googleAPIToken)
 token = Path('active_token.txt').read_text().replace('\n', '')
 bot = telebot.AsyncTeleBot(token)
 
-# def np_getDistance(A , B ):# 先緯度後經度
-#     ra = 6378140  # radius of equator: meter
-#     rb = 6356755  # radius of polar: meter
-#     flatten = 0.003353 # Partial rate of the earth
-#     # change angle to radians
-#     print(A)
-#     print(B)
-#     radLatA = np.radians(A[:,0])
-#     radLonA = np.radians(A[:,1])
-#     radLatB = np.radians(B[:,0])
-#     radLonB = np.radians(B[:,1])
-#
-#     pA = np.arctan(rb / ra * np.tan(radLatA))
-#     pB = np.arctan(rb / ra * np.tan(radLatB))
-#
-#     x = np.arccos( np.multiply(np.sin(pA),np.sin(pB)) + np.multiply(np.multiply(np.cos(pA),np.cos(pB)),np.cos(radLonA - radLonB)))
-#     c1 = np.multiply((np.sin(x) - x) , np.power((np.sin(pA) + np.sin(pB)),2)) / np.power(np.cos(x / 2),2)
-#     c2 = np.multiply((np.sin(x) + x) , np.power((np.sin(pA) - np.sin(pB)),2)) / np.power(np.sin(x / 2),2)
-#     dr = flatten / 8 * (c1 - c2)
-#     distance = 0.001 * ra * (x + dr)
-#     return distance
-
-class Data:
-    def __init__(self):
-        self.photoDS = {}
-        self.nameList = []
-        self.inputing = False
-        self.PoPoPositionDS = {}
-        self.positionList = []
-        self.clientList = {}
-
-    def addPhoto(self, photo, name):
-        if str(name) in self.photoDS:
-            print(name in self.photoDS)
-            self.photoDS[name].append(photo)
-        else:
-            self.photoDS[name].append(photo)
-
-    def addTarget(self, name):
-        if not (name in self.nameList):
-            self.nameList.append(name)
-            self.photoDS[name] = []
-
-    def prepareForInput(self):
-        if not self.inputing:
-            self.clientList[chatId] = [False,True, True]
-
-    def inputFinished(self, chatId):
-        if self.inputing:
-            self.clientList[chatId] = [False,False,True]
-
-    def getName(self):
-        if len(self.nameList) == 0:
-            return "No current Target"
-        else:
-            return self.nameList[-1]
-
-    def reportPopo(self, chatId):
-        # x = {str(chatId) : {'status': (True,False,False), 'position': ""}}
-        self.clientList[str(chatId)] = {'status': [True,False,True], 'position': ""}
-        print("clientList: ",self.clientList)
-
-    def addPoPoposition(self, chatId, position):
-        if str(chatId) in self.clientList:
-            if self.clientList[str(chatId)]['status'][0]:
-                if not self.clientList[str(chatId)]['status'][2]:
-                    return False
-                self.clientList[str(chatId)]['status'][2] = False
-                print("clientList: ",self.clientList)
-                self.positionList.append(position)
-                self.clientList[str(chatId)]['position'] = position
-                return True
-        else:
-            print("not in clientList")
-            return False
-
-    def addPoPoNumber(self, chatId, number):
-        print("clientList: ", self.clientList)
-        self.PoPoPositionDS[self.clientList[str(chatId)]['position']] = number
-        self.clientList[str(chatId)]['status'][2] = True
-
 DataSet = Data()
-
 
 @bot.message_handler(commands=['start'])
 def sendWelcome(messages):

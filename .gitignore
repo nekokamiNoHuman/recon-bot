@@ -2,3 +2,4 @@ active_token.txt
 credentials.json
 token.pickle
 googleAPIToken.txt
+.gcloudignore
