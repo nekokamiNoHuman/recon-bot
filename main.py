@@ -2,35 +2,15 @@ from flask import Flask, request
 from pathlib import Path
 import telebot
 import logging
-import numpy as np
 from Data import Data
 import googlemaps
 
 token = Path('active_token.txt').read_text().replace('\n', '')
-bot = telebot.AsyncTeleBot(token)
-bot.set_webhook("https://quickstart-1565428127489.appspot.com/")
-
-
-
-# logger = telebot.logger
-# telebot.logger.setLevel(logging.DEBUG)
-googleAPIToken = Path('googleAPIToken.txt').read_text().replace('\n', '')
-gmaps = googlemaps.Client(key=googleAPIToken)
-
-bot = telebot.AsyncTeleBot(token)
-
 DataSet = Data()
-app= Flask(__name__)
+googleAPIToken = Path('googleAPIToken.txt').read_text().replace('\n', '')
 
-@app.route('/', methods=["POST"])
-def tg_webhook():
-    if flask.request.headers.get("content-type") == "application/json":
-        json_string = flask.request.get_data().decode("utf-8")
-        update = teleBot.types.Update.de_json(json_string)
-        bot.process_new_updates([update])
-        return "OK"
-    else:
-        flask.abort(403)
+bot = telebot.AsyncTeleBot(token)
+gmaps = googlemaps.Client(key=googleAPIToken)
 
 @bot.message_handler(commands=['start'])
 def sendWelcome(messages):
@@ -149,5 +129,28 @@ def done(messages):
 def getHelpInfo(messages):
     if isinstance(messages, telebot.types.Message):
         bot.reply_to(messages, "/photo target name\n /getCurrentTarget \n /getPhotoOf name")
-
-# bot.polling(none_stop=False, interval=0, timeout=20)
+#
+#
+# logger = telebot.logger
+# telebot.logger.setLevel(logging.DEBUG)
+#
+#
+# app= Flask(__name__)
+#
+# @app.route('/', method=["POST"])
+# def tg_webhook():
+#     if flask.request.headers.get("content-type") == "application/json":
+#         json_string = flask.request.get_data().decode("utf-8")
+#         logger.info(json_string)
+#         update = teleBot.types.Update.de_json(json_string)
+#         bot.process_new_updates([update])
+#         return "OK"
+#     else:
+#         flask.abort(403)
+#
+# @app.route("/set_hook")
+# def set_hook():
+#     bot.set_webhook("https://quickstart-1565428127489.appspot.com/")
+#     return "OK"
+# bot.delete_webhook()
+bot.polling(none_stop=False, interval=0, timeout=20)
