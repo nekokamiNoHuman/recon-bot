@@ -2,3 +2,5 @@ runtime: python37
 handlers:
 - url: .*
   script: auto
+env_variables:
+    GAE_USE_SOCKETS_HTTPLIB : 'true'

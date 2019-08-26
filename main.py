@@ -1,22 +1,36 @@
-from app import app
+from flask import Flask, request
 from pathlib import Path
 import telebot
 import logging
-import requests
 import numpy as np
 from Data import Data
-from google.appengine.api import urlfetch
-from google.appengine.ext import ndb
 import googlemaps
+
+token = Path('active_token.txt').read_text().replace('\n', '')
+bot = telebot.AsyncTeleBot(token)
+bot.set_webhook("https://quickstart-1565428127489.appspot.com/")
+
+
+
 # logger = telebot.logger
 # telebot.logger.setLevel(logging.DEBUG)
 googleAPIToken = Path('googleAPIToken.txt').read_text().replace('\n', '')
 gmaps = googlemaps.Client(key=googleAPIToken)
 
-token = Path('active_token.txt').read_text().replace('\n', '')
 bot = telebot.AsyncTeleBot(token)
 
 DataSet = Data()
+app= Flask(__name__)
+
+@app.route('/', methods=["POST"])
+def tg_webhook():
+    if flask.request.headers.get("content-type") == "application/json":
+        json_string = flask.request.get_data().decode("utf-8")
+        update = teleBot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return ""
+    else:
+        flask.abort(403)
 
 @bot.message_handler(commands=['start'])
 def sendWelcome(messages):
