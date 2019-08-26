@@ -28,7 +28,7 @@ def tg_webhook():
         json_string = flask.request.get_data().decode("utf-8")
         update = teleBot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
-        return ""
+        return "OK"
     else:
         flask.abort(403)
 
@@ -101,10 +101,10 @@ def getPoPoPosition(messages):
     if isinstance(messages, telebot.types.Message):
         for key in DataSet.PoPoPositionDS:
             geocode_result = gmaps.geocode(key)[0]["geometry"]["location"]
-            print(geocode_result["lat"]," , ",geocode_result["lng"])
+            # print(geocode_result["lat"]," , ",geocode_result["lng"])
             bot.send_location(messages.chat.id, geocode_result["lat"],geocode_result["lng"])
             bot.send_message(messages.chat.id, "There is "+DataSet.PoPoPositionDS[key]+" Popos at "+key)
-        print(DataSet.PoPoPositionDS)
+        # print(DataSet.PoPoPositionDS)
 
 @bot.message_handler(content_types=['location'])
 def addLocation(messages):
@@ -114,16 +114,16 @@ def addLocation(messages):
                 # Find_loc = np.matrix([[float(messages.location.latitude),float(messages.location.longitude)]])
                 if len(DataSet.positionList) == 0:
                     reverse_geocode_result = gmaps.reverse_geocode((messages.location.latitude,messages.location.longitude))
-                    print(reverse_geocode_result[0]["formatted_address"])
+                    # print(reverse_geocode_result[0]["formatted_address"])
                     status = DataSet.addPoPoposition(messages.chat.id,reverse_geocode_result[0]["formatted_address"])
-                    print('DataSet.clientList: ',DataSet.clientList)
+                    # print('DataSet.clientList: ',DataSet.clientList)
                 else:
                     locationList = np.matrix(DataSet.positionList)
-                    print('DataSet.positionList: ',DataSet.positionList)
+                    # print('DataSet.positionList: ',DataSet.positionList)
                     reverse_geocode_result = gmaps.reverse_geocode((messages.location.latitude,messages.location.longitude))
-                    print(reverse_geocode_result[0]["formatted_address"])
+                    # print(reverse_geocode_result[0]["formatted_address"])
                     status = DataSet.addPoPoposition(messages.chat.id,reverse_geocode_result[0]["formatted_address"])
-                    print('DataSet.clientList: ',DataSet.clientList)
+                    # print('DataSet.clientList: ',DataSet.clientList)
                 if not status:
                     bot.send_message(messages.chat.id, "You should update the PoPo number for last position first")
                     bot.send_message(messages.chat.id, "Or type /deleteLastPosition to delete it")
@@ -150,4 +150,4 @@ def getHelpInfo(messages):
     if isinstance(messages, telebot.types.Message):
         bot.reply_to(messages, "/photo target name\n /getCurrentTarget \n /getPhotoOf name")
 
-bot.polling(none_stop=False, interval=0, timeout=20)
+# bot.polling(none_stop=False, interval=0, timeout=20)

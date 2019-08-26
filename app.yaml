@@ -1,6 +1,11 @@
-runtime: python37
+runtime: python27
+threadsafe: true
 handlers:
 - url: .*
-  script: auto
+  script: main.app
 env_variables:
     GAE_USE_SOCKETS_HTTPLIB : 'true'
+
+libraries:
+- name: flask
+  version: 0.12
