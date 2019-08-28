@@ -129,33 +129,33 @@ def done(messages):
 def getHelpInfo(messages):
     if isinstance(messages, telebot.types.Message):
         bot.reply_to(messages, "/photo target name\n /getCurrentTarget \n /getPhotoOf name")
-#
-#
-# logger = telebot.logger
-# telebot.logger.setLevel(logging.DEBUG)
-#
-#
-# app= Flask(__name__)
-#
-# @app.route('/', method=["POST"])
-# def tg_webhook():BUG)
-#
-#
-# app= Flask(__name__)
-#
-# @app.route('/', method=["POST"])
-#     if flask.request.headers.get("content-type") == "application/json":
-#         json_string = flask.request.get_data().decode("utf-8")
-#         logger.info(json_string)
-#         update = teleBot.types.Update.de_json(json_string)
-#         bot.process_new_updates([update])
-#         return "OK"
-#     else:
-#         flask.abort(403)
-#
-# @app.route("/set_hook")
-# def set_hook():
-#     bot.set_webhook("https://quickstart-1565428127489.appspot.com/")
-#     return "OK"
-# bot.delete_webhook()
-bot.polling(none_stop=False, interval=0, timeout=20)
+
+
+logger = telebot.logger
+telebot.logger.setLevel(logging.DEBUG)
+
+
+app= Flask(__name__)
+
+@app.route('/', method=["POST"])
+def tg_webhook():BUG)
+
+
+app= Flask(__name__)
+
+@app.route('/', method=["POST"])
+    if flask.request.headers.get("content-type") == "application/json":
+        json_string = flask.request.get_data().decode("utf-8")
+        logger.info(json_string)
+        update = teleBot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return "OK"
+    else:
+        flask.abort(403)
+
+@app.route("/set_hook")
+def set_hook():
+    bot.set_webhook("https://quickstart-1565428127489.appspot.com/")
+    return "OK"
+bot.delete_webhook()
+# bot.polling(none_stop=False, interval=0, timeout=20)
