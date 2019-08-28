@@ -136,13 +136,6 @@ def getHelpInfo(messages):
 logger = telebot.logger
 telebot.logger.setLevel(logging.DEBUG)
 
-
-app= Flask(__name__)
-
-@app.route('/', method=["POST"])
-def tg_webhook():BUG)
-
-
 app= Flask(__name__)
 
 @app.route('/', method=["POST"])
@@ -158,6 +151,6 @@ def respond():
 
 @app.route("/set_hook")
 def set_hook():
-    bot.set_webhook("https://quickstart-1565428127489.appspot.com/")
+    bot.set_webhook("https://deadcommunist-bot.herokuapp.com/"+token)
     return "OK"
 # bot.polling(none_stop=False, interval=0, timeout=20)
