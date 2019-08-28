@@ -5,9 +5,11 @@ import logging
 from Data import Data
 import googlemaps
 
-token = Path('active_token.txt').read_text().replace('\n', '')
+from proj.heroku_env_vars import telegram_bot, google_api_token, GOOGLE_APPLICATION_CREDENTIALS, GOOGLE_CREDENTIALS
+
+token = telegram_bot
 DataSet = Data()
-googleAPIToken = Path('googleAPIToken.txt').read_text().replace('\n', '')
+googleAPIToken = google_api_token
 
 bot = telebot.AsyncTeleBot(token)
 gmaps = googlemaps.Client(key=googleAPIToken)
