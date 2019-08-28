@@ -160,5 +160,4 @@ def respond():
 def set_hook():
     bot.set_webhook("https://quickstart-1565428127489.appspot.com/")
     return "OK"
-bot.delete_webhook()
 # bot.polling(none_stop=False, interval=0, timeout=20)
