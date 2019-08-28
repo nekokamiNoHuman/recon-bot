@@ -138,7 +138,12 @@ def getHelpInfo(messages):
 # app= Flask(__name__)
 #
 # @app.route('/', method=["POST"])
-# def tg_webhook():
+# def tg_webhook():BUG)
+#
+#
+# app= Flask(__name__)
+#
+# @app.route('/', method=["POST"])
 #     if flask.request.headers.get("content-type") == "application/json":
 #         json_string = flask.request.get_data().decode("utf-8")
 #         logger.info(json_string)
