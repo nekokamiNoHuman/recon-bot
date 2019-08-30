@@ -8,7 +8,7 @@ import os
 #for taking heroku variable
 from boto.s3.connection import S3Connection
 herokuVariable = S3Connection(os.environ['telegram_bot'], os.environ['google_api_token'], os.environ['GOOGLE_APPLICATION_CREDENTIALS'], os.environ['GOOGLE_CREDENTIALS'])
-tokenBucket = herokuVariable.create_bucket('tokenBucket')
+tokenBucket = herokuVariable.create_bucket('tokenbucket')
 token = tokenBucket["telegram_bot"]
 DataSet = Data()
 googleAPIToken = tokenBucket.getKey("google_api_token")
