@@ -159,4 +159,5 @@ def set_hook():
 
 # bot.polling(none_stop=False, interval=0, timeout=20)
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
