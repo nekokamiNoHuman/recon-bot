@@ -158,5 +158,5 @@ def set_hook():
 
 
 # bot.polling(none_stop=False, interval=0, timeout=20)
-if __name__ = "__main__":
+if __name__ == "__main__":
     app.run()
