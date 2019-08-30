@@ -153,6 +153,6 @@ def respond():
 
 @app.route("/set_hook")
 def set_hook():
-    bot.set_webhook("https://deadcommunist-bot.herokuapp.com/"+token)
+    bot.set_webhook("https://deadcommunist-bot.herokuapp.com/"+token, threaded=False)
     return "OK"
 # bot.polling(none_stop=False, interval=0, timeout=20)
