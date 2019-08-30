@@ -142,7 +142,7 @@ app= Flask(__name__)
 
 @app.route('/'+token, methods=["POST"])
 def respond():
-    if flask.request.headers.get("content-type") == "application/json":
+    if Flask.request.headers.get("content-type") == "application/json":
         json_string = flask.request.get_data().decode("utf-8")
         logger.info(json_string)
         update = teleBot.types.Update.de_json(json_string)
