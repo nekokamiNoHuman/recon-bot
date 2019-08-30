@@ -4,12 +4,13 @@ import telebot
 import logging
 from Data import Data
 import googlemaps
+#for taking heroku variable
+from boto.s3.connection import S3Connection
+herokuVariable = S3Connection(os.environ['telegram_bot'], os.environ['google_api_token'], os.environ['GOOGLE_APPLICATION_CREDENTIALS'], os.environ['GOOGLE_CREDENTIALS'])
 
-from proj.heroku_env_vars import telegram_bot, google_api_token, GOOGLE_APPLICATION_CREDENTIALS, GOOGLE_CREDENTIALS
-
-token = telegram_bot
+token = herokuVariable["telegram_bot"]
 DataSet = Data()
-googleAPIToken = google_api_token
+googleAPIToken = herokuVariable["google_api_token"]
 
 bot = telebot.AsyncTeleBot(token)
 gmaps = googlemaps.Client(key=googleAPIToken)
