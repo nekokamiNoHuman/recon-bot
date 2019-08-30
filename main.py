@@ -146,7 +146,7 @@ def respond():
     if request.headers.get("content-type") == "application/json":
         json_string = flask.request.get_data().decode("utf-8")
         logger.info(json_string)
-        update = teleBot.types.Update.de_json(json_string)
+        update = telebot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
         return 200
     else:
