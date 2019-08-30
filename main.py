@@ -140,21 +140,22 @@ telebot.logger.setLevel(logging.DEBUG)
 
 app= Flask(__name__)
 
-@app.route('/', methods=["POST"])
+@app.route('/'+token, methods=["POST"])
 def respond():
     if flask.request.headers.get("content-type") == "application/json":
         json_string = flask.request.get_data().decode("utf-8")
         logger.info(json_string)
         update = teleBot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
-        return "OK"
+        return 200
     else:
         flask.abort(403)
 
 @app.route("/set_hook")
 def set_hook():
+    bot.remove_webhook()
     bot.set_webhook("https://deadcommunist-bot.herokuapp.com/"+token)
-    return "OK"
+    return 200
 
 
 # bot.polling(none_stop=False, interval=0, timeout=20)
