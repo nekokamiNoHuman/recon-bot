@@ -155,4 +155,7 @@ def respond():
 def set_hook():
     bot.set_webhook("https://deadcommunist-bot.herokuapp.com/"+token, threaded=False)
     return "OK"
+
 # bot.polling(none_stop=False, interval=0, timeout=20)
+if __name__ = "__main__":
+    app.run()
