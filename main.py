@@ -140,7 +140,7 @@ telebot.logger.setLevel(logging.DEBUG)
 
 app= Flask(__name__)
 
-@app.route('/', method=["POST"])
+@app.route('/', methods=["POST"])
 def respond():
     if flask.request.headers.get("content-type") == "application/json":
         json_string = flask.request.get_data().decode("utf-8")
