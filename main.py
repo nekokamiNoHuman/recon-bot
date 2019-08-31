@@ -96,20 +96,13 @@ def getPoPoPosition(messages):
 def addLocation(messages):
     if isinstance(messages, telebot.types.Message):
         if str(messages.chat.id) in DataSet.clientList:
-            if DataSet.clientList[str(messages.chat.id)]["status"][0]:
-                # Find_loc = np.matrix([[float(messages.location.latitude),float(messages.location.longitude)]])
+            if DataSet.clientList[str(messages.chat.id)]["status"][0]:                
                 if len(DataSet.positionList) == 0:
                     reverse_geocode_result = gmaps.reverse_geocode((messages.location.latitude,messages.location.longitude))
-                    # print(reverse_geocode_result[0]["formatted_address"])
                     status = DataSet.addPoPoposition(messages.chat.id,reverse_geocode_result[0]["formatted_address"])
-                    # print('DataSet.clientList: ',DataSet.clientList)
                 else:
-                    # locationList = np.matrix(DataSet.positionList)
-                    # print('DataSet.positionList: ',DataSet.positionList)
                     reverse_geocode_result = gmaps.reverse_geocode((messages.location.latitude,messages.location.longitude))
-                    # print(reverse_geocode_result[0]["formatted_address"])
                     status = DataSet.addPoPoposition(messages.chat.id,reverse_geocode_result[0]["formatted_address"])
-                    # print('DataSet.clientList: ',DataSet.clientList)
                 if not status:
                     bot.send_message(messages.chat.id, "You should update the PoPo number for last position first")
                     bot.send_message(messages.chat.id, "Or type /deleteLastPosition to delete it")

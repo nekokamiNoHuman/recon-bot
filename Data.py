@@ -45,7 +45,9 @@ class Data:
                     return False
                 self.clientList[str(chatId)]['status'][2] = False
                 print("clientList: ",self.clientList)
-                self.positionList.append(position)
+                print("positionList", self.positionList)
+                if not position in self.positionList:
+                    self.positionList.append(position)
                 self.clientList[str(chatId)]['position'] = position
                 return True
         else:
@@ -54,5 +56,6 @@ class Data:
 
     def addPoPoNumber(self, chatId, number):
         print("clientList: ", self.clientList)
-        self.PoPoPositionDS[self.clientList[str(chatId)]['position']] = number
+        if (self.PoPoPositionDS[self.clientList[str(chatId)]['position']]):
+            self.PoPoPositionDS[self.clientList[str(chatId)]['position']] = number
         self.clientList[str(chatId)]['status'][2] = True
