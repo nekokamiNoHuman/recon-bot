@@ -84,10 +84,11 @@ def reportPopoPosition(messages):
 @bot.message_handler(commands=['getPoPoPosition'])
 def getPoPoPosition(messages):
     if isinstance(messages, telebot.types.Message):
+        print(DataSet.PoPoPositionDS);
         for key in DataSet.PoPoPositionDS:
             geocode_result = gmaps.geocode(key)[0]["geometry"]["location"]
             # print(geocode_result["lat"]," , ",geocode_result["lng"])
-            # bot.send_location(messages.chat.id, geocode_result["lat"],geocode_result["lng"])
+            bot.send_location(messages.chat.id, geocode_result["lat"],geocode_result["lng"])
             bot.send_message(messages.chat.id, "There is "+DataSet.PoPoPositionDS[key]+" Popos at "+key)
         # print(DataSet.PoPoPositionDS)
 
