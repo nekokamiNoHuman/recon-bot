@@ -60,5 +60,6 @@ class Data:
             self.PoPoPositionDS[self.clientList[str(chatId)]['position']] = number
         else:
             if(self.PoPoPositionDS[self.clientList[str(chatId)]['position']] != 0):
+                print(self.PoPoPositionDS[self.clientList[str(chatId)]['position']])
                 self.PoPoPositionDS[self.clientList[str(chatId)]['position']] = str(int((int(self.PoPoPositionDS[self.clientList[str(chatId)]['position']]) + number)/2))
         self.clientList[str(chatId)]['status'][2] = True
