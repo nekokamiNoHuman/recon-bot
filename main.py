@@ -89,14 +89,14 @@ def getPoPoPosition(messages):
             geocode_result = gmaps.geocode(key)[0]["geometry"]["location"]
             # print(geocode_result["lat"]," , ",geocode_result["lng"])
             bot.send_location(messages.chat.id, geocode_result["lat"],geocode_result["lng"])
-            bot.send_message(messages.chat.id, "There is "+DataSet.PoPoPositionDS[key]+" Popos at "+key)
+            bot.send_message(messages.chat.id, "There is "+str(DataSet.PoPoPositionDS[key])+" Popos at "+key)
         # print(DataSet.PoPoPositionDS)
 
 @bot.message_handler(content_types=['location'])
 def addLocation(messages):
     if isinstance(messages, telebot.types.Message):
         if str(messages.chat.id) in DataSet.clientList:
-            if DataSet.clientList[str(messages.chat.id)]["status"][0]:                
+            if DataSet.clientList[str(messages.chat.id)]["status"][0]:
                 if len(DataSet.positionList) == 0:
                     reverse_geocode_result = gmaps.reverse_geocode((messages.location.latitude,messages.location.longitude))
                     status = DataSet.addPoPoposition(messages.chat.id,reverse_geocode_result[0]["formatted_address"])
