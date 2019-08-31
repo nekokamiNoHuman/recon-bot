@@ -104,7 +104,7 @@ def addLocation(messages):
                     status = DataSet.addPoPoposition(messages.chat.id,reverse_geocode_result[0]["formatted_address"])
                     # print('DataSet.clientList: ',DataSet.clientList)
                 else:
-                    locationList = np.matrix(DataSet.positionList)
+                    # locationList = np.matrix(DataSet.positionList)
                     # print('DataSet.positionList: ',DataSet.positionList)
                     reverse_geocode_result = gmaps.reverse_geocode((messages.location.latitude,messages.location.longitude))
                     # print(reverse_geocode_result[0]["formatted_address"])
