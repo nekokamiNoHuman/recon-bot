@@ -14,7 +14,7 @@ token = os.environ.get('telegram_bot')
 DataSet = Data()
 googleAPIToken =  os.environ.get('google_api_token')
 
-bot = telebot.TeleBot(token)
+bot = telebot.AsyncTeleBot(token, threaded=False)
 gmaps = googlemaps.Client(key=googleAPIToken)
 
 @bot.message_handler(commands=['start'])
@@ -144,8 +144,6 @@ app= Flask(__name__)
 @app.route('/'+token, methods=["POST"])
 def respond():
     if request.headers.get("content-type") == "application/json":
-        bot.remove_webhook()
-        bot.set_webhook("https://deadcommunist-bot.herokuapp.com/"+token)
         json_string = flask.request.get_data().decode("utf-8")
         logger.info(json_string)
         update = telebot.types.Update.de_json(json_string)
