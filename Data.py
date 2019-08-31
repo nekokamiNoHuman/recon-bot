@@ -56,6 +56,9 @@ class Data:
 
     def addPoPoNumber(self, chatId, number):
         print("clientList: ", self.clientList)
-        if (self.PoPoPositionDS[self.clientList[str(chatId)]['position']]):
+        if (not self.clientList[str(chatId)]['position'] in self.PoPoPositionDS):
             self.PoPoPositionDS[self.clientList[str(chatId)]['position']] = number
+        else:
+            if(self.PoPoPositionDS[self.clientList[str(chatId)]['position']] != 0):
+                self.PoPoPositionDS[self.clientList[str(chatId)]['position']] = (self.PoPoPositionDS[self.clientList[str(chatId)]['position']] + number)/2
         self.clientList[str(chatId)]['status'][2] = True
