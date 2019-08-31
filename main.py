@@ -14,7 +14,7 @@ token = os.environ.get('telegram_bot')
 DataSet = Data()
 googleAPIToken =  os.environ.get('google_api_token')
 
-bot = telebot.AsyncTeleBot(token)
+bot = telebot.TeleBot(token)
 gmaps = googlemaps.Client(key=googleAPIToken)
 
 @bot.message_handler(commands=['start'])
