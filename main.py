@@ -94,7 +94,6 @@ def getPoPoPosition(messages):
             # print(geocode_result["lat"]," , ",geocode_result["lng"])
             bot.send_location(messages.chat.id, geocode_result["lat"],geocode_result["lng"])
             bot.send_message(messages.chat.id, "There is "+str(DataSet.PoPoPositionDS[key])+" Popos at "+key)
-        # print(DataSet.PoPoPositionDS)
 
 @bot.message_handler(content_types=['location'])
 def addLocation(messages):
