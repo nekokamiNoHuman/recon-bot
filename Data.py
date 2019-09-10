@@ -72,7 +72,7 @@ class Data:
     def addMember(self, chatId, name):
         print("add Member")
         if (not chatId in self.memberList):
-            self.memberList[chatId] = {lastUpdateTime: "", name: name}
+            self.memberList[chatId] = {"lastUpdateTime": "", "name": name}
 
     def updateLastUpdateTime(self, chatId, time):
         if (chatId in self.memberList):
@@ -81,7 +81,7 @@ class Data:
     def updateName(self, chatId, name):
         for member in self.memberList:
             if name == member.name:
-                self.memberList[chatId] = { lastUpdateTime: self.memberList[member], name: name}
+                self.memberList[chatId] = { "lastUpdateTime": self.memberList[member], "name": name}
                 self.memberList.pop(member,None)
 
     def setAdmin(self, chatId):
