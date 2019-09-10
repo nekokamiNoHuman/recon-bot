@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from flask import Flask, request
 import flask
 from pathlib import Path
@@ -28,6 +29,8 @@ def sendWelcome(messages):
         markup.add(telebot.types.KeyboardButton("/reportPoPoPosition"))
         markup.add(telebot.types.KeyboardButton("/getPoPoPosition"))
         markup.add(telebot.types.KeyboardButton("/done"))
+        if DataSet.haveMember(messages.chat.id):
+            markup.add(telebot.types.KeyboardButton("/safe"))
         bot.send_message(messages.chat.id, text="Howdy, how are you doing?", reply_markup=markup)
 
 
@@ -135,6 +138,12 @@ def safe(messages):
         bot.send_message(messages.chat.id, "safe")
         bot.send_message(DataSet.admin, messages.chat.username+"好安全")
 
+@bot.message_handler(regexp="/admin "+os.environ.get("secretOfNation"))
+def setAdmin(messages):
+    if isinstance(messages, telebot.types.Message):
+        DataSet.setAdmin(messages.chat.id)
+        bot.send_message(messages.chat.id, "你宜家就係admin")
+        
 @bot.message_handler(commands=['help'])
 def getHelpInfo(messages):
     if isinstance(messages, telebot.types.Message):
