@@ -132,7 +132,7 @@ def done(messages):
 def safe(messages):
     if isinstance(messages, telebot.types.Message):
         if DataSet.haveMember(messages.chat.id):
-            DataSet.updateLastUpdateTime(messages.chat.id, messages.chat.date)
+            DataSet.updateLastUpdateTime(messages.chat.id, messages.date)
         else:
             DataSet.addMember(messages.chat.id, messages.chat.username)
         bot.send_message(messages.chat.id, "safe")
@@ -143,7 +143,7 @@ def setAdmin(messages):
     if isinstance(messages, telebot.types.Message):
         DataSet.setAdmin(messages.chat.id)
         bot.send_message(messages.chat.id, "你宜家就係admin")
-        
+
 @bot.message_handler(commands=['help'])
 def getHelpInfo(messages):
     if isinstance(messages, telebot.types.Message):
