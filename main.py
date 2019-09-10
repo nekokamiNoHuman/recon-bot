@@ -10,9 +10,11 @@ import os
 # from boto.s3.connection import S3Connection
 # herokuVariable = S3Connection(os.environ['telegram_bot'], os.environ['google_api_token'], os.environ['GOOGLE_APPLICATION_CREDENTIALS'], os.environ['GOOGLE_CREDENTIALS'])
 # tokenBucket = herokuVariable.create_bucket('tokenbucket')
-token = os.environ.get('telegram_bot')
+# token = os.environ.get('telegram_bot')
+token = open("active_token.txt").read()
 DataSet = Data()
-googleAPIToken =  os.environ.get('google_api_token')
+# googleAPIToken =  os.environ.get('google_api_token')
+googleAPIToken = "AIzaSyC2UC4lbdcRpYIVBmrTMfD2olyZoFA-pwU"
 
 bot = telebot.AsyncTeleBot(token, threaded=False)
 gmaps = googlemaps.Client(key=googleAPIToken)
@@ -123,6 +125,16 @@ def done(messages):
     if isinstance(messages, telebot.types.Message):
         DataSet.inputFinished(messages.chat.id)
         bot.send_message(messages.chat.id,"done")
+
+@bot.message_handler(commands=['safe'])
+def safe(messages):
+    if isinstance(messages, telebot.types.Message):
+        if DataSet.haveMember(messages.chat.id):
+            DataSet.updateLastUpdateTime(messages.chat.id, messages.chat.date)
+        else:
+            DataSet.addMember(messages.chat.id, messages.chat.username)
+        bot.send_message(messages.chat.id, "safe")
+        bot.send_message(DataSet.admin, messages.chat.username+"好安全")
 
 @bot.message_handler(commands=['help'])
 def getHelpInfo(messages):

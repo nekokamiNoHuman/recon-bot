@@ -6,6 +6,9 @@ class Data:
         self.PoPoPositionDS = {}
         self.positionList = []
         self.clientList = {}
+        self.memberList = {}
+        self.admin = ""
+        self.hackerList = {}
 
     def addPhoto(self, photo, name):
         if str(name) in self.photoDS:
@@ -63,3 +66,32 @@ class Data:
                 print(self.PoPoPositionDS[self.clientList[str(chatId)]['position']])
                 self.PoPoPositionDS[self.clientList[str(chatId)]['position']] = int((int(self.PoPoPositionDS[self.clientList[str(chatId)]['position']]) + int(number))/2)
         self.clientList[str(chatId)]['status'][2] = True
+
+    def haveMember(self, chatId):
+        return chatId in self.memberList
+    def addMember(self, chatId, name):
+        print("add Member")
+        if (not chatId in self.memberList):
+            self.memberList[chatId] = {lastUpdateTime: "", name: name}
+
+    def updateLastUpdateTime(self, chatId, time):
+        if (chatId in self.memberList):
+            self.memberList[chatId]["lastUpdateTime"] = time
+
+    def updateName(self, chatId, name):
+        for member in self.memberList:
+            if name == member.name:
+                self.memberList[chatId] = { lastUpdateTime: self.memberList[member], name: name}
+                self.memberList.pop(member,None)
+
+    def setAdmin(self, chatId):
+        if self.admin == None:
+            self.admin = chatId
+
+    def updateAdmin(self, chatId, password, contact={}):
+        if password == os.environ.get('admin_secret'):
+            self.admin = chatId
+            return True
+        else:
+            self.hackerList[chatId] = contact
+            return False
